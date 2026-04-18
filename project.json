@@ -1,0 +1,24 @@
+{
+  "overview": "A professional industrial monitoring dashboard for JSS Automotives — track real-time machine health, sensor data, production counts, and predictive maintenance across your factory floor. Dark-mode UI with live alerts, wear progression charts, and CSV export.",
+  "features": [
+    "Real-time machine health monitoring with sensor simulation",
+    "Dynamic machine & sensor management (add/edit/delete)",
+    "Custom alert thresholds with color-coded severity levels",
+    "Wear progression computation and predictive maintenance scoring",
+    "Production tracking with trend charts and hourly breakdowns",
+    "Live alerts panel with filtering, search, and CSV export",
+    "Professional industrial dark-mode UI with responsive layout"
+  ],
+  "category": "productivity",
+  "tags": [
+    "industrial",
+    "monitoring",
+    "dashboard",
+    "manufacturing",
+    "real-time",
+    "sensors",
+    "alerts",
+    "predictive-maintenance"
+  ],
+  "last_updated": "2026-04-18T14:02:50.854Z"
+}

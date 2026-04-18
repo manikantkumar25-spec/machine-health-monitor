@@ -1,0 +1,124 @@
+// Version: 1.0.0
+type AlertEvent__755664446 =
+  {
+    acknowledged : Bool;
+    id : AlertId__758494499;
+    machineId : MachineId__822315646;
+    machineName : Text;
+    sensorName : Text;
+    severity : Text;
+    timestamp : Timestamp__301639476;
+    value : Float
+  };
+type AlertEvent__831258977 = AlertEvent__755664446;
+type AlertId__758494499 = Text;
+type AlertThreshold__279457462 = AlertThreshold__663016861;
+type AlertThreshold__663016861 =
+  {
+    criticalLevel : Float;
+    id : Text;
+    machineId : MachineId__822315646;
+    sensorId : SensorId__877477405;
+    sensorName : Text;
+    warnLevel : Float
+  };
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type MachineId__822315646 = Text;
+type Machine__153761542 =
+  {
+    createdAt : Timestamp__301639476;
+    id : MachineId__822315646;
+    machineType : Text;
+    name : Text;
+    status : Text
+  };
+type Machine__260272928 = Machine__153761542;
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type ProductionPoint__542301730 = ProductionPoint__985588763;
+type ProductionPoint__985588763 =
+  {
+    count : Nat;
+    machineId : MachineId__822315646;
+    timestamp : Timestamp__301639476
+  };
+type SensorId__877477405 = Text;
+type SensorReading__626969475 =
+  {
+    machineId : MachineId__822315646;
+    sensorId : SensorId__877477405;
+    sensorName : Text;
+    timestamp : Timestamp__301639476;
+    value : Float
+  };
+type SensorReading__845664045 = SensorReading__626969475;
+type Sensor__59599503 = Sensor__914681620;
+type Sensor__914681620 =
+  {
+    createdAt : Timestamp__301639476;
+    enabled : Bool;
+    id : SensorId__877477405;
+    machineId : MachineId__822315646;
+    refreshInterval : Nat;
+    sensorName : Text;
+    unit : Text
+  };
+type Timestamp__301639476 = Int;
+type WearRecord__36469782 =
+  {
+    machineId : MachineId__822315646;
+    timestamp : Timestamp__301639476;
+    wearPercent : Float
+  };
+type WearRecord__601097709 = WearRecord__36469782;
+actor {
+  stable alertEvents :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?AlertEvent__831258977]];
+      var elementIndex : Nat__490723111
+    };
+  stable var alertIdCounter : {var value : Nat};
+  stable var machineIdCounter : {var value : Nat};
+  stable machines :
+    {
+      var root : Node__46230540<MachineId__822315646, Machine__260272928>;
+      var size : Nat__490723111
+    };
+  stable productionHistory :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?ProductionPoint__542301730]];
+      var elementIndex : Nat__490723111
+    };
+  stable var sensorIdCounter : {var value : Nat};
+  stable sensorReadings :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?SensorReading__845664045]];
+      var elementIndex : Nat__490723111
+    };
+  stable sensors :
+    {
+      var root : Node__46230540<SensorId__877477405, Sensor__59599503>;
+      var size : Nat__490723111
+    };
+  stable var thresholdIdCounter : {var value : Nat};
+  stable thresholds :
+    {
+      var root : Node__46230540<Text, AlertThreshold__279457462>;
+      var size : Nat__490723111
+    };
+  stable wearHistory :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?WearRecord__601097709]];
+      var elementIndex : Nat__490723111
+    }
+};

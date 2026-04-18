@@ -1,0 +1,135 @@
+type WearRecord = 
+ record {
+   machineId: MachineId;
+   timestamp: Timestamp;
+   wearPercent: float64;
+ };
+type Timestamp = int;
+type SensorReading = 
+ record {
+   machineId: MachineId;
+   sensorId: SensorId;
+   sensorName: text;
+   timestamp: Timestamp;
+   value: float64;
+ };
+type SensorId = text;
+type Sensor = 
+ record {
+   createdAt: Timestamp;
+   enabled: bool;
+   id: SensorId;
+   machineId: MachineId;
+   refreshInterval: nat;
+   sensorName: text;
+   unit: text;
+ };
+type ProductionPoint = 
+ record {
+   count: nat;
+   machineId: MachineId;
+   timestamp: Timestamp;
+ };
+type MachineId = text;
+type Machine = 
+ record {
+   createdAt: Timestamp;
+   id: MachineId;
+   machineType: text;
+   name: text;
+   status: text;
+ };
+type AlertThreshold = 
+ record {
+   criticalLevel: float64;
+   id: text;
+   machineId: MachineId;
+   sensorId: SensorId;
+   sensorName: text;
+   warnLevel: float64;
+ };
+type AlertId = text;
+type AlertEvent = 
+ record {
+   acknowledged: bool;
+   id: AlertId;
+   machineId: MachineId;
+   machineName: text;
+   sensorName: text;
+   severity: text;
+   timestamp: Timestamp;
+   value: float64;
+ };
+service : {
+  acknowledgeAlert: (id: AlertId) -> (variant {
+                                        err: text;
+                                        ok;
+                                      });
+  addAlertEvent: (machineId: MachineId, machineName: text, sensorName: 
+   text, value: float64, severity: text) ->
+   (variant {
+      err: text;
+      ok: AlertEvent;
+    });
+  addMachine: (name: text, machineType: text, status: text) ->
+   (variant {
+      err: text;
+      ok: Machine;
+    });
+  addSensor: (machineId: MachineId, sensorName: text, unit: text,
+   refreshInterval: nat) -> (variant {
+                               err: text;
+                               ok: Sensor;
+                             });
+  clearAlerts: () -> ();
+  deleteMachine: (id: MachineId) -> (variant {
+                                       err: text;
+                                       ok;
+                                     });
+  deleteSensor: (id: SensorId) -> (variant {
+                                     err: text;
+                                     ok;
+                                   });
+  getAlertEvents: (limit: nat) -> (vec AlertEvent) query;
+  getAlertThresholds: (machineId: MachineId) -> (vec AlertThreshold) query;
+  getMachines: () -> (vec Machine) query;
+  getProductionHistory: (machineId: MachineId, hours: nat) ->
+   (vec ProductionPoint) query;
+  getSensorReadings: (machineId: MachineId, sensorName: text, hours: 
+   nat) -> (vec SensorReading) query;
+  getSensorsForMachine: (machineId: MachineId) -> (vec Sensor) query;
+  getTotalProduction: () -> (nat) query;
+  getWearHistory: (machineId: MachineId, hours: nat) ->
+   (vec WearRecord) query;
+  recordProduction: (machineId: MachineId, count: nat) ->
+   (variant {
+      err: text;
+      ok: ProductionPoint;
+    });
+  recordSensorReading: (sensorId: SensorId, machineId: MachineId, sensorName:
+   text, value: float64) -> (variant {
+                               err: text;
+                               ok;
+                             });
+  recordWear: (machineId: MachineId, wearPercent: float64) ->
+   (variant {
+      err: text;
+      ok;
+    });
+  setAlertThreshold: (machineId: MachineId, sensorId: SensorId, sensorName:
+   text, warnLevel: float64, criticalLevel: float64) ->
+   (variant {
+      err: text;
+      ok: AlertThreshold;
+    });
+  updateMachine: (id: MachineId, name: text, machineType: text, status:
+   text) -> (variant {
+               err: text;
+               ok: Machine;
+             });
+  updateSensor: (id: SensorId, sensorName: text, unit: text, refreshInterval:
+   nat, enabled: bool) -> (variant {
+                             err: text;
+                             ok: Sensor;
+                           });
+}
